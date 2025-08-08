@@ -9,7 +9,7 @@ class Category extends Model
 
     public function tasks(){
 
-        return $this->belongsTo(Task::class,'category_task');
+        return $this->belongsToMany(Task::class,'category_task');
 
     }
 
