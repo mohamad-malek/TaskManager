@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -11,10 +12,12 @@ Route::get('/user', function (Request $request) {
 
 
 Route::apiResource('/tasks',TaskController::class);
-Route::get('/task/{Id}/user',[TaskController::class,'getTaskUser']);
-
-
-     
+Route::get('/task/{Id}/user',[TaskController::class,'getTaskUser']);     
 Route::post('/tasks/{taskId}/categories',[TaskController::class,'addCategoriesToTask']);
 Route::get('/tasks/{taskId}/categories',[TaskController::class,'getTaskCategories']);
 Route::get('/categories/{categoryId}/tasks',[TaskController::class,'getCategorieTasks']);
+
+
+Route::post('/profile',[ProfileController::class,'store']);
+Route::put('/profile/{id}',[ProfileController::class,'update']);
+Route::get('/profile/{id}',[ProfileController::class,'show']);
