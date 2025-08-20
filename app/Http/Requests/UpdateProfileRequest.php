@@ -22,10 +22,11 @@ class UpdateProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-                'phone'=>'string|nullable|max:10',
+            'phone'=>'string|nullable|max:10',
             'address'=>'string|nullable|max:70',
             'date_of_birth'=>'sometimes|nullable|date|before:today',
             'bio'=>'nullable|string'
         ];
     }
 }
+

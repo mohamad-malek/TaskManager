@@ -22,7 +22,6 @@ class ProfileController extends Controller
                 ],201
                );
      }
-     
      public function update(UpdateProfileRequest $request, $id)
      {
       $profile =  Profile::where('user_id',$id)->firstOrFail();
@@ -39,7 +38,4 @@ class ProfileController extends Controller
         $profile= Profile::where('user_id',$id)->firstorfail();
         return response()->json($profile,200);
      }
-
-
-
 }
