@@ -18,19 +18,26 @@ Route::post('/register',[UserController::class,'register']);
 Route::post('/login',[UserController::class,'login']);
 Route::post('/logout',[UserController::class,'logout'])->middleware('auth:sanctum');
 
+Route::middleware('auth:sanctum')->group(function(){
 
 Route::apiResource('/tasks',TaskController::class);
-Route::get('/task/{Id}/user',[TaskController::class,'getTaskUser']);     
-Route::post('/tasks/{taskId}/categories',[TaskController::class,'addCategoriesToTask']);
-Route::get('/tasks/{taskId}/categories',[TaskController::class,'getTaskCategories']);
+Route::prefix('/task')->group(function(){
+Route::get('/all',[TaskController::class,'getAllTasks'])->middleware('Usercheck');
+Route::get('/{Id}/user',[TaskController::class,'getTaskUser']);     
+Route::post('/{taskId}/categories',[TaskController::class,'addCategoriesToTask']);
+Route::get('/{taskId}/categories',[TaskController::class,'getTaskCategories']);
+});
 Route::get('/categories/{categoryId}/tasks',[TaskController::class,'getCategorieTasks']);
 
+Route::prefix('/profile')->group(function(){
+Route::post('',[ProfileController::class,'store']);
+Route::put('/{id}',[ProfileController::class,'update']);
+Route::get('/{id}',[ProfileController::class,'show']);
 
-Route::post('/profile',[ProfileController::class,'store']);
-Route::put('/profile/{id}',[ProfileController::class,'update']);
-Route::get('/profile/{id}',[ProfileController::class,'show']);
+});
 
 Route::get('/user/{id}/profile',[UserController::class,'getProfile']);
 Route::get('/user/{id}/tasks',[UserController::class,'getUserTask']);
+});
 
 
