@@ -14,6 +14,31 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
+
+
+    public function addToFavorites($taskId)
+    {
+            Task::findOrFail($taskId);
+            Auth::user()->favoriteTasks()->syncWithoutDetaching($taskId);    
+            return response()->json(["message"=> 'Task added to favorites '], 200);
+    }   
+
+
+    public function removeFromFavorites($taskId)
+    {   
+        Task::findOrFail($taskId);
+        Auth::user()->favoriteTasks()->detach($taskId);
+        return response()->json(["message"=> 'Task removed from  favorites '], 200);
+    }
+
+    public function getFavoriteTasks()
+    {
+       $favoriteTasks = Auth::user()->favoriteTasks()->get();
+       
+        return response()->json($favoriteTasks,200);
+    }
+
+
     public function store(StoreTaskRequest $request)
     {   
         $user_id= Auth::user()->id; 
@@ -35,7 +60,7 @@ class TaskController extends Controller
                 return  response()->json($task,200);
          }
     }
- 
+    
     public function destroy($id)
     {
         $user_id= Auth::user()->id;
@@ -49,7 +74,7 @@ class TaskController extends Controller
     }
     
     public function  getTasksByPriority()
-    {                                                   
+    {                                               
         $task = Auth::user()->tasks()->orderByRaw("field(priority,'high','medium ','low')")->get();
         return response()->json($task,200);
     }
@@ -63,6 +88,7 @@ class TaskController extends Controller
     }
 
 
+    
     public function getAllTasks(){
 
         $task=Task::all();
@@ -90,7 +116,7 @@ class TaskController extends Controller
 
     }
 
-    
+
     public function addCategoriesToTask(Request $request,$taskId)
     {
             $user_id = Auth::user()->id;
@@ -100,9 +126,7 @@ class TaskController extends Controller
             }else{
                 $task->categories()->attach($request->category_id);
                 return response()->json('category attached succesfuly',200);
-            }
-
-        
+            }        
     }   
 
 
@@ -117,6 +141,8 @@ class TaskController extends Controller
         $category = Category::findOrFail($categoryId)->tasks;
         return response()->json($category,200);
         }
+
+
 
 
 
