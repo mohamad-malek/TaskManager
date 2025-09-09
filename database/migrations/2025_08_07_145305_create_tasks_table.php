@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();//when i delete the user account the tasks that belongs to him also will be deleted
             $table->string('title');
             $table->string('description')->nullable();
-            $table->integer('priority');
+            $table->enum('priority',["high","medium","low"]);
+            
             $table->timestamps();
         });
     }

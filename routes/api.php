@@ -22,11 +22,17 @@ Route::middleware('auth:sanctum')->group(function(){
 
 Route::apiResource('/tasks',TaskController::class);
 Route::prefix('/task')->group(function(){
+
 Route::get('/all',[TaskController::class,'getAllTasks'])->middleware('Usercheck');
 Route::get('/{Id}/user',[TaskController::class,'getTaskUser']);     
+Route::get('/ordered',[TaskController::class,'getTasksByPriority']);
 Route::post('/{taskId}/categories',[TaskController::class,'addCategoriesToTask']);
 Route::get('/{taskId}/categories',[TaskController::class,'getTaskCategories']);
+
+
 });
+
+
 Route::get('/categories/{categoryId}/tasks',[TaskController::class,'getCategorieTasks']);
 
 Route::prefix('/profile')->group(function(){
