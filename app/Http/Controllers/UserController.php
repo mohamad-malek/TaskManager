@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResourse;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -61,10 +62,12 @@ class UserController extends Controller
           return response()->json([
             "message"=>"Logout Succesful",
            ],200);
+    }
 
-
-    
-
+    public  function getUser(){
+      $user_id=  Auth::user()->id;
+       $userData = User::with('profile')->findOrFail($user_id);
+       return  new UserResourse($userData);
     }
 
     public function getProfile($id)
@@ -80,3 +83,5 @@ class UserController extends Controller
         
     }
 }
+
+

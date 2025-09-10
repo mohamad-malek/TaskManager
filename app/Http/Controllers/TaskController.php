@@ -79,14 +79,11 @@ class TaskController extends Controller
         return response()->json($task,200);
     }
 
-
-
     public function index()
     {
         $task=Auth::user()->tasks;
         return response()->json($task,200);
     }
-
 
     
     public function getAllTasks(){
@@ -95,8 +92,6 @@ class TaskController extends Controller
         return response()->json($task,200);
         
     }
-    
-
     public function show($id)
     {
         $user_id = Auth::user()->id;
@@ -128,7 +123,7 @@ class TaskController extends Controller
                 return response()->json('category attached succesfuly',200);
             }        
     }   
-
+    
 
     public function getTaskCategories($taskId)
     {   
@@ -144,7 +139,6 @@ class TaskController extends Controller
 
 
 
-
-
 }
+
 

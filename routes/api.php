@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Route::get('/user', function (Request $request) {
+//     return $request->user();
+// })->middleware('auth:sanctum');
 
 
         Route::post('/register',[UserController::class,'register']);
@@ -35,18 +35,22 @@ Route::prefix('/task')->group(function()
         Route::get('/favorites',[TaskController::class,'getFavoriteTasks']);
 });
 
-
-        Route::get('/categories/{categoryId}/tasks',[TaskController::class,'getCategorieTasks']);
-
-        Route::prefix('/profile')->group(function(){
+Route::prefix('/profile')->group(function()
+{
         Route::post('',[ProfileController::class,'store']);
         Route::put('/{id}',[ProfileController::class,'update']);
         Route::get('/{id}',[ProfileController::class,'show']);
 
 });
+        Route::get('/categories/{categoryId}/tasks',[TaskController::class,'getCategorieTasks']);
 
-        Route::get('/user/{id}/profile',[UserController::class,'getProfile']);
-        Route::get('/user/{id}/tasks',[UserController::class,'getUserTask']);
+Route::prefix('/user')->group(function(){
+
+        Route::get('/{id}/profile',[UserController::class,'getProfile']);
+        Route::get('/{id}/tasks',[UserController::class,'getUserTask']);
+        Route::get('',[UserController::class,'getUser']);
+});  
+        
 });
 
 

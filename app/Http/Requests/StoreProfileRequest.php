@@ -22,11 +22,12 @@ class StoreProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id'=>'required|exists:users,id',
+            
             'phone'=>'string|required|max:10',
             'address'=>'string|nullable|max:70',
             'date_of_birth'=>'sometimes|nullable|date|before:today',
-            'bio'=>'nullable|string'
+            'bio'=>'nullable|string',
+            'image'=>'required|image|mimes:png,jpg,jpeg|max:2048' // hajem sora 2000 mb
         ];
     }
 }

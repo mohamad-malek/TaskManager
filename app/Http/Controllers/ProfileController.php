@@ -7,13 +7,23 @@ use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class ProfileController extends Controller
 {
     public  function store(StoreProfileRequest $request)
-    {
-               $profile= Profile::create($request->validated());
+    {           $user_id =Auth::user()->id;
+                $validatedData=$request->validated();
+                $validatedData['user_id']=$user_id;
+                
+                if($request->hasFile('image'))
+                {                                  // store function la t5azen sora bt5d 2 parameters
+                    $path=$request->file('image')->store('my photo','public'); //$folder    //$disck
+                    $validatedData['image']=$path;
+
+                }                                  
+               $profile= Profile::create($validatedData);
                return response()->json(
                 [
                     'massege'=>'profile created succesfully',
@@ -21,6 +31,9 @@ class ProfileController extends Controller
 
                 ],201
                );
+
+             
+                 
      }
      public function update(UpdateProfileRequest $request, $id)
      {
@@ -39,3 +52,4 @@ class ProfileController extends Controller
         return response()->json($profile,200);
      }
 }
+
